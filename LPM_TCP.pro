@@ -45,7 +45,8 @@ HEADERS += \
     w_add_user.h \
     get_string.h \
     class_config.h \
-    edit_config.h
+    edit_config.h \
+    lpm_wl_lib.h
 
 FORMS += \
         mainwindow.ui \

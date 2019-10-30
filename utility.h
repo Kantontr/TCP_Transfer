@@ -30,9 +30,10 @@
 #include <QMessageBox>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <iomanip> // setprecision()
+#include <iomanip>
 #include <ctime>
 #include <stdexcept>
+#include "lpm_wl_lib.h"
 
 
 inline std::string path_appdata_instal;
@@ -50,7 +51,12 @@ inline bool initialize_values(){
 
 #ifdef __unix__
 
-path_appdata_instal = "\"
+    const char *homedir;
+
+    if ((homedir = getenv("HOME")) == NULL) {
+        path_appdata_instal = getpwuid(getuid())->pw_dir;
+    }
+
 
 #elif defined(_WIN32) || defined(WIN32)
 
@@ -79,31 +85,7 @@ path_appdata_instal = "\"
 inline bool initialize_values_2(){
 }
 
-inline  int list_folders(std::string folder_list_path,std::string list_of_folders[]) {
 
-    int counter = 0;
-    DIR *dir;
-    struct dirent *ent;
-    std::string tmp;
-    std::string tmp_2;
-    if ((dir = opendir(folder_list_path.c_str())) != NULL) {
-
-
-        for(int i=0;(ent = readdir(dir)) != NULL;i++){
-            if(i>=2){
-                list_of_folders[counter] = ent->d_name;
-                counter++;
-            }
-        }
-
-        closedir(dir);
-        return counter;
-
-    } else {
-        perror("");
-        return EXIT_FAILURE;
-    }
-}
 
 
 inline std::string get_user_from_list(std::string input){
@@ -146,24 +128,6 @@ inline std::string get_port_from_list(std::string input){
     return port;
 }
 
-inline bool LPM_file_exist(std::string file_path){
 
-
-#ifdef __unix__
-
-
-#elif defined(_WIN32) || defined(WIN32)
-
-    if ((GetFileAttributesA(file_path.c_str())) == INVALID_FILE_ATTRIBUTES){
-        perror("Looking for file: ");
-        return false;
-    }
-
-    else return true;
-
-#endif
-
-
-}
 
 #endif // UTILITY_H

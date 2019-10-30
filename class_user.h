@@ -44,12 +44,12 @@ class Class_Users{
     inline bool load_users(){
 
         initialize_values();
-        if(GetFileAttributesA(path_users.c_str()) == INVALID_FILE_ATTRIBUTES){
+        if(!LPM_folder_exist(path_users)){
             return false;
         }
         std::cout<<"Starting Loading users!"<<std::endl;
         std::string list_of_folders[100];
-        number_of_users = list_folders(path_users,list_of_folders);
+        number_of_users = LPM_folder_list(path_users,list_of_folders);
         std::cout<<"Loading users - nb of users = "<<number_of_users<<std::endl;
 
         if(number_of_users>0){

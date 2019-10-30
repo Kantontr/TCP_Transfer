@@ -12,33 +12,35 @@ bool install(){
 
 #elif defined(_WIN32) || defined(WIN32)
 
+
+
+
+#endif
+
+
     std::cout<<"Starting installer!"<<std::endl;
     initialize_values();
+    if (!LPM_folder_exist(path_main_folder)) {
 
-    if ((GetFileAttributesA(path_main_folder.c_str())) == INVALID_FILE_ATTRIBUTES) {
-
-        if ((GetFileAttributesA(path_appdata_instal.c_str())) == INVALID_FILE_ATTRIBUTES) {
-            CreateDirectoryA(path_appdata_instal.c_str(), 0);
+        if (LPM_folder_exist(path_appdata_instal)) {
+            LPM_folder_create(path_appdata_instal);
             std::cout << "Folder KantonLPM zostal utworzony w " << path_appdata_instal << std::endl;
         }
 
-        CreateDirectoryA(path_main_folder.c_str(), 0);
+        LPM_folder_create(path_main_folder);
         std::cout << "Folder File_Transfer zostal utworzony w " << path_main_folder << std::endl;
 
-        CreateDirectoryA(path_bin.c_str(), 0);
+        LPM_folder_create(path_bin);
         std::cout << "Folder bin zostal utworzony w " << path_bin << std::endl;
 
-        CreateDirectoryA(path_users.c_str(), 0);
+        LPM_folder_create(path_users);
         std::cout << "Folder users zostal utworzony w " << path_users << std::endl;
 
-        CreateDirectoryA(path_config.c_str(), 0);
+        LPM_folder_create(path_config);
         std::cout << "Folder config zostal utworzony w " << path_config << std::endl;
 
     }
     return true;
-
-
-#endif
 
 
 
